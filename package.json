@@ -1,0 +1,28 @@
+{
+  "name": "lojaqa-automacao-banca",
+  "version": "1.0.0",
+  "description": "Projeto de automação de testes E2E e API da aplicação LojaQA, desenvolvido com Playwright e TypeScript como atividade do FAP 2026.",
+  "main": "index.js",
+  "scripts": {
+     "test": "playwright test",
+      "test:headed": "playwright test --headed",
+      "test:ui": "playwright test --ui",
+      "test:report": "playwright show-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debbtrbl/lojaqa-automacao-banca.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/debbtrbl/lojaqa-automacao-banca/issues"
+  },
+  "homepage": "https://github.com/debbtrbl/lojaqa-automacao-banca#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.6"
+  }
+}
