@@ -4,15 +4,17 @@
 //O endpoint de checkout é /orders, que recebe um array de produtos e endereço de entrega
 //O endpoint de categorias é /products/categories, que retorna um array de strings
 
-import { test, expect } from '@playwright/test';
+import { test, expect , APIRequestContext} from '@playwright/test';
+const API_URL = 'https://api-qa-fap2026.onrender.com/api';
+
 
 const EMAIL = 'user@system.com';
 const PASSWORD = 'UserPassword123';
 
 test.describe('API - Categorias e Carrinho', () => {
 
-  async function fazerLogin(request: any) {
-    const response = await request.post('/login', {
+  async function fazerLogin(request: APIRequestContext) {
+    const response = await request.post(`${API_URL}/login`, {
       data: {
         email: EMAIL,
         password: PASSWORD
@@ -31,7 +33,7 @@ test.describe('API - Categorias e Carrinho', () => {
   // TESTE 1 - Consultar categorias
   test('GET - Deve consultar as categorias da loja', async ({ request }) => {
 
-    const response = await request.get('/products/categories');
+    const response = await request.get(`${API_URL}/products/categories`);
 
     // Status Code
     expect(response.status()).toBe(200);
@@ -58,7 +60,7 @@ test.describe('API - Categorias e Carrinho', () => {
   // TESTE 2 - Consultar produtos para o carrinho
   test('GET - Deve consultar produtos disponíveis para compra', async ({ request }) => {
 
-    const response = await request.get('/products');
+    const response = await request.get(`${API_URL}/products`);
 
     expect(response.status()).toBe(200);
 
@@ -87,7 +89,7 @@ test.describe('API - Categorias e Carrinho', () => {
     const token = await fazerLogin(request);
 
     // Buscar produtos disponíveis
-    const productsResponse = await request.get('/products');
+    const productsResponse = await request.get(`${API_URL}/products`);
 
     expect(productsResponse.status()).toBe(200);
 
@@ -107,7 +109,7 @@ test.describe('API - Categorias e Carrinho', () => {
       }
     ];
 
-    const response = await request.post('/orders', {
+    const response = await request.post(`${API_URL}/orders`, {
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -145,7 +147,7 @@ test.describe('API - Categorias e Carrinho', () => {
   // TESTE 4 - Não deve finalizar compra sem autenticação
   test('POST - Deve rejeitar checkout sem token', async ({ request }) => {
 
-    const response = await request.post('/orders', {
+    const response = await request.post(`${API_URL}/orders`, {
       data: {
         items: [
           {
@@ -172,7 +174,7 @@ test.describe('API - Categorias e Carrinho', () => {
 
     const token = await fazerLogin(request);
 
-    const response = await request.post('/orders', {
+    const response = await request.post(`${API_URL}/orders`, {
       headers: {
         Authorization: `Bearer ${token}`
       },
@@ -195,7 +197,7 @@ test.describe('API - Categorias e Carrinho', () => {
 
     const token = await fazerLogin(request);
 
-    const response = await request.post('/orders', {
+    const response = await request.post(`${API_URL}/orders`, {
       headers: {
         Authorization: `Bearer ${token}`
       },
